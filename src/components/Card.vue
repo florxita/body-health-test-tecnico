@@ -1,5 +1,7 @@
 <script setup>
-defineProps({
+import { ref } from "vue";
+
+const { body } = defineProps({
   id: Number,
   category: String,
   region: String,
@@ -7,6 +9,13 @@ defineProps({
   hour: Date,
   url: Array,
 });
+
+const bodySliced = ref("");
+
+/**
+ * Funcion que limita cantidad de caracteres.
+ */
+bodySliced.value = body.slice(0, 254).concat("...");
 </script>
 
 <template>
@@ -17,7 +26,7 @@ defineProps({
     </div>
     <article>
       <p>
-        {{ body }}
+        {{ bodySliced }}
       </p>
     </article>
     <div class="flex">
