@@ -1,21 +1,38 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
-const { body } = defineProps({
+const { body, url } = defineProps({
   id: Number,
   category: String,
   region: String,
   body: String,
-  hour: Date,
+  hour: String,
   url: Array,
 });
 
 const bodySliced = ref("");
+const links = ref("");
 
-/**
- * Funcion que limita cantidad de caracteres.
- */
-bodySliced.value = body.slice(0, 254).concat("...");
+bodySliced.value = body.slice(0, 254).concat("..."); //reduzco cantidad de caracteres a 255 y concateno con "..."
+
+const fillLinks = () => {
+  links.value = url.map((link) => {
+    const cuttedLink = link.split("/")[2];
+
+    if (cuttedLink.includes("www")) {
+      return {
+        originalLink: link,
+        linkWithoutW: cuttedLink.slice(4),
+      };
+    }
+    return {
+      originalLink: link,
+      linkWithoutW: cuttedLink,
+    };
+  });
+};
+
+fillLinks();
 </script>
 
 <template>
@@ -31,7 +48,16 @@ bodySliced.value = body.slice(0, 254).concat("...");
     </article>
     <div class="flex">
       <span>{{ hour }}</span>
-      <span>{{ url }}</span>
+      <span v-for="link in links" :key="link">
+        <a :href="link.originalLink" target="_blank">
+          ver en {{ link.linkWithoutW }}</a
+        >
+        <!-- 
+          ** Intento concatenar los 2 links para que queden conectados por un "y en" pero no funciona correctamente
+          <a :href="link.originalLink" target="_blank"
+          >{{ links.length > 1 && "y en" }} {{ link.linkWithoutW }}</a
+        > -->
+      </span>
     </div>
   </div>
 </template>
