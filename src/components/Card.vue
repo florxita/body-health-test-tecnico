@@ -37,7 +37,7 @@ fillLinks();
 
 <template>
   <div class="card">
-    <div class="flex">
+    <div class="flexContainer">
       <h2>{{ category }}</h2>
       <h2>{{ region }}</h2>
     </div>
@@ -46,7 +46,7 @@ fillLinks();
         {{ bodySliced }}
       </p>
     </article>
-    <div class="flex">
+    <div class="flexContainer">
       <span>{{ hour }}</span>
       <span v-for="link in links" :key="link">
         <a :href="link.originalLink" target="_blank">
@@ -61,19 +61,3 @@ fillLinks();
     </div>
   </div>
 </template>
-
-<style>
-.flex {
-  display: flex;
-  justify-content: space-between;
-}
-.card {
-  width: 600px;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-  border-radius: 25px;
-  background-color: aliceblue;
-}
-</style>
